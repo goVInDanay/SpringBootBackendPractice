@@ -1,50 +1,32 @@
 package com.example.demo.models;
 
-import java.time.LocalDateTime;
-
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-@EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "booking_review")
-public class Review {
+@Inheritance(strategy = InheritanceType.JOINED)
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+public class Review extends BaseModel {
 
 	@Column(nullable = false)
 	private String content;
 
 	private Double rating;
 
-	@Column(nullable = false, updatable = false)
-	@CreatedDate
-	private LocalDateTime createdAt;
+	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	@JoinColumn(nullable = false)
+	private Booking booking;
 
-	@Column(nullable = false)
-	@LastModifiedDate
-	private LocalDateTime updatedAt;
+	@Override
+	public String toString() {
+		return "Review: " + this.content + " " + this.rating + " " + " booking: " + this.booking.getId() + " "
+				+ this.createdAt;
+	}
+
 }
