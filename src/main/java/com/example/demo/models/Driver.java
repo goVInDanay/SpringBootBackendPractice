@@ -5,6 +5,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Builder
@@ -23,5 +27,6 @@ public class Driver extends BaseModel {
 	private String phoneNumber;
 
 	@OneToMany(mappedBy = "driver", fetch = FetchType.LAZY)
-	private List<Booking> bookings;
+	@Fetch(FetchMode.SUBSELECT)
+	private Set<Booking> bookings;
 }

@@ -3,18 +3,20 @@ package com.example.demo.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
-import com.example.demo.UberReviewServiceApplication;
+
 import com.example.demo.models.Booking;
 import com.example.demo.models.Driver;
-import com.example.demo.models.Review;
 import com.example.demo.repositories.BookingRepository;
 import com.example.demo.repositories.DriverRepository;
 import com.example.demo.repositories.ReviewRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
-public class ReviewService implements CommandLineRunner {
+public class ReviewService {
 
 	private final ReviewRepository reviewRepository;
 	private final DriverRepository driverRepository;
@@ -27,15 +29,13 @@ public class ReviewService implements CommandLineRunner {
 		this.driverRepository = driverRepository;
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
+	@EventListener(ApplicationReadyEvent.class)
+	@Transactional
+	public void run() {
 		System.out.println("**********");
 
-//		 Example: create driver first
-//		Driver dri = Driver.builder().name("John").licenseNumber("D1232141").build();
-//		driverRepository.save(dri);
-//		System.out.println("Driver saved: " + dri);
 		Optional<Driver> driver = driverRepository.findByIdAndLicenseNumber(1L, "D1232141");
+
 		driver.ifPresent(d -> {
 			System.out.println(d);
 			List<Booking> bookings = bookingRepository.findAllByDriverId(d.getId());
