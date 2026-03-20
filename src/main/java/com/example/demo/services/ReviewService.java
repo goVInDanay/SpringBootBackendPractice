@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.models.Booking;
 import com.example.demo.models.Driver;
+import com.example.demo.models.Review;
 import com.example.demo.repositories.BookingRepository;
 import com.example.demo.repositories.DriverRepository;
 import com.example.demo.repositories.ReviewRepository;
@@ -34,12 +35,12 @@ public class ReviewService {
 	public void run() {
 		System.out.println("**********");
 
-		Optional<Driver> driver = driverRepository.findByIdAndLicenseNumber(1L, "D1232141");
+		List<Booking> bookings = bookingRepository.findAll();
 
-		driver.ifPresent(d -> {
-			System.out.println(d);
-			List<Booking> bookings = bookingRepository.findAllByDriverId(d.getId());
-			bookings.forEach(System.out::println);
+		bookings.stream().forEach(b -> {
+			System.out.println(b);
+			Review reviews = bookingRepository.findReviewByBookingId(b.getId());
+			System.out.println(reviews);
 		});
 	}
 }
