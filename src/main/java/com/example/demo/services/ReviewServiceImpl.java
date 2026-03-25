@@ -13,6 +13,10 @@ public class ReviewServiceImpl implements ReviewService {
 
 	private ReviewRepository reviewRepository;
 
+	public Review publishReview(Review review) {
+		return reviewRepository.save(review);
+	}
+
 	public ReviewServiceImpl(ReviewRepository reviewRepository) {
 		this.reviewRepository = reviewRepository;
 	}
