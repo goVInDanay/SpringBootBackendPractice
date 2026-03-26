@@ -24,7 +24,7 @@ public class ReviewDtoToReviewAdapterImpl implements ReviewDtoToReviewAdapter {
 		if (booking.isEmpty()) {
 			return null;
 		}
-		Review review = Review.builder().rating(reviewDto.getRating()).booking(booking.get()	)
+		Review review = Review.builder().rating(reviewDto.getRating()).booking(booking.get())
 				.content(reviewDto.getContent()).build();
 		return review;
 	}

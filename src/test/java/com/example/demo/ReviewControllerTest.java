@@ -16,9 +16,9 @@ import org.springframework.http.ResponseEntity;
 import com.example.demo.adapters.ReviewDtoToReviewAdapter;
 import com.example.demo.controllers.ReviewController;
 import com.example.demo.dtos.ReviewDto;
-import com.example.demo.models.Booking;
 import com.example.demo.models.Review;
 import com.example.demo.services.ReviewService;
+import com.example.entityservice.models.Booking;
 
 public class ReviewControllerTest {
 
